@@ -54,24 +54,20 @@ const urlStruct = {
       HTMLHandler.getCSS(request, response);
     } else if (parsedUrl.pathname === '/getUsers') {
       jsonHandler.getUsers(request, response);
-    } else {
+    } else if (parsedUrl.pathname === '/') {
       HTMLHandler.getIndex(request, response);
+    }else {
+      jsonHandler.notFound(request, response);
     }
   };
 
 const onRequest = (request, response) => {
     const parsedUrl = url.parse(request.url);
   
-    if(!urlStruct[request.method]) {
-      return urlStruct['HEAD'].notFound(request, response);
-    }
+    //if(!urlStruct[request.method]) {
+    //  return urlStruct['HEAD'].notFound(request, response);
+    //}
     
-    if(urlStruct[request.method][parsedUrl.pathname]){
-      urlStruct[request.method][parsedUrl.pathname](request, response);
-    } else {
-      urlStruct[request.method].notFound(request, response);
-    }
-
     if (request.method === 'POST') {
       handlePost(request, response, parsedUrl);
     } else {
